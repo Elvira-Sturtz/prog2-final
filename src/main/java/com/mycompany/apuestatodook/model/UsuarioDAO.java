@@ -29,10 +29,9 @@ public class UsuarioDAO {
     }
  
     public Usuario autenticar(String usuario, String contrasenia) {
-    String query = "SELECT id_usuario, usuario, contrasenia, dinero, tipo FROM usuario WHERE usuario = ? AND contrasenia = ?";
+    String query = "SELECT id_usuario, usuario, contrasenia, dinero, rol FROM usuario WHERE usuario = ? AND contrasenia = ?"; 
     Usuario validado = null;
-    try (Connection con = ConnectionPool.getInstance().getConnection(); 
-         PreparedStatement preparedStatement = con.prepareStatement(query)) {
+    try (Connection con = ConnectionPool.getInstance().getConnection(); PreparedStatement preparedStatement = con.prepareStatement(query)) {
         preparedStatement.setString(1, usuario);
         preparedStatement.setString(2, contrasenia);
         try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -54,16 +53,17 @@ private Usuario rsRowToUsuario(ResultSet rs) throws SQLException {
     
  
     double dinero = rs.getDouble("dinero");
-    String tipo = rs.getString("tipo");
+    String tipo = rs.getString("rol");
 
     return new Usuario(IDusuario, usuario, contrasenia, dinero, tipo);
 }
 
     public int add(String usuario, String contrasenia) {
-        String query = "INSERT INTO usuario (usuario, contrasenia) VALUES (?, ?)";
-        try (Connection con = ConnectionPool.getInstance().getConnection(); PreparedStatement preparedStatement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        String query = "INSERT INTO usuario (usuario, contrasenia, rol) VALUES (?, ?, ?)";
+        try (Connection con = ConnectionPool.getInstance().getConnection();  PreparedStatement preparedStatement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, usuario);
             preparedStatement.setString(2, contrasenia);
+            preparedStatement.setString(3, "user"); 
             preparedStatement.executeUpdate();
 
             ResultSet key = preparedStatement.getGeneratedKeys();
