@@ -7,22 +7,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
+import org.hibernate.Session;
 
 
 public class UsuarioDAO {
 
-     
- public List<Usuario> getAll() {
-        List<Usuario>usuarios = new LinkedList();
-        String query = "SELECT * FROM usuario";
-        try(Connection con = ConnectionPool.getInstance().getConnection();
-        PreparedStatement ps = con.prepareStatement(query);
-        ResultSet rs = ps.executeQuery();)
-        {
-            while(rs.next()){
-                usuarios.add(rsRowToUsuario(rs));
-            }
-        }catch(SQLException ex){
+         
+    public List<Usuario> getAll() {
+        List<Usuario> usuarios = new LinkedList();
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            usuarios = session.createQuery("FROM Usuario", Usuario.class).getResultList();
+            session.getTransaction().commit();
+        } catch(Exception ex){
             throw new RuntimeException(ex);
         }
         return usuarios;
