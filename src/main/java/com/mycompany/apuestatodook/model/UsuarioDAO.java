@@ -47,7 +47,7 @@ public class UsuarioDAO {
     
   
 
-private Usuario rsRowToUsuario(ResultSet rs) throws SQLException {
+/*private Usuario rsRowToUsuario(ResultSet rs) throws SQLException {
     int IDusuario = rs.getInt("id_usuario");
     String usuario = rs.getString("usuario");
     String contrasenia = rs.getString("contrasenia");
@@ -58,22 +58,16 @@ private Usuario rsRowToUsuario(ResultSet rs) throws SQLException {
 
     return new Usuario(IDusuario, usuario, contrasenia, dinero, tipo);
 }
-
-    public int add(String usuario, String contrasenia) {
-        String query = "INSERT INTO usuario (usuario, contrasenia, rol) VALUES (?, ?, ?)";
-        try (Connection con = ConnectionPool.getInstance().getConnection();  PreparedStatement preparedStatement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, usuario);
-            preparedStatement.setString(2, contrasenia);
-            preparedStatement.setString(3, "user"); 
-            preparedStatement.executeUpdate();
-
-            ResultSet key = preparedStatement.getGeneratedKeys();
-            if (key.next()) {
-                return key.getInt(1);
-            } else {
-                throw new SQLException("No se pudo obtener el ID de usuario generado automáticamente.");
-            }
-        } catch (SQLException ex) {
+*/
+      
+    public int add(String usuario, String contrasenia, String rol) {
+        Usuario user = new Usuario(usuario, contrasenia, 0.0, rol);
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            session.persist(user);
+            session.getTransaction().commit();
+            return user.getIDusuario();
+        } catch(Exception ex){
             throw new RuntimeException(ex);
         }
     }
