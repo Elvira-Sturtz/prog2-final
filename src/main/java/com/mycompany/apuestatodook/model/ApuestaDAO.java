@@ -7,31 +7,22 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.Session; 
+
 
 public class ApuestaDAO {
 
     public void add(Apuesta apuesta) {
-        String query = "INSERT INTO apuesta (monto, por_quien, fk_id_usuario, fk_id_partido, fk_id_resultado) VALUES (?, ?, ?, ?, ?)";
-        try (Connection con = ConnectionPool.getInstance().getConnection(); PreparedStatement preparedStatement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setInt(1, apuesta.getMonto());
-            preparedStatement.setString(2, apuesta.getpor_quien());
-            preparedStatement.setInt(3, apuesta.getIdUsuario());
-            preparedStatement.setInt(4, apuesta.getIdPartido());
-            preparedStatement.setInt(5, apuesta.getFk_id_resultado());
-            preparedStatement.executeUpdate();
-
-            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    int idApuesta = generatedKeys.getInt(1);
-                    apuesta.setIdApuesta(idApuesta);
-                } else {
-                    throw new SQLException("La inserción no generó el ID deseado.");
-                }
-            }
-        } catch (SQLException ex) {
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            session.persist(apuesta);
+            session.getTransaction().commit();
+        } catch(Exception ex){
             throw new RuntimeException(ex);
         }
     }
+    
+    
     public List<Apuesta> getApuestasPorUsuario(int idUsuario) {
     List<Apuesta> apuestas = new ArrayList<>();
     String query = "SELECT * FROM apuesta WHERE fk_id_usuario = ?";
