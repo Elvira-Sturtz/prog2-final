@@ -31,23 +31,23 @@ public class PersonaDAO {
         }
     }
     
+        
     public Persona getPersonaPorId(Integer Id) {
-        String query = "SELECT * FROM persona WHERE fk_id_usuario = ?";
         Persona persona = null;
-        try (Connection con = ConnectionPool.getInstance().getConnection(); PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            preparedStatement.setInt(1, Id);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    persona = rsRowToPersona(resultSet);
-                }
-            }
-        } catch (SQLException ex) {
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            persona = session.createQuery("FROM Persona WHERE fk_id_ususario = ?1", Persona.class)
+                    .setParameter(1, Id)
+                    .getSingleResultOrNull();
+            session.getTransaction().commit();
+            
+        } catch(Exception ex){
             throw new RuntimeException(ex);
         }
         return persona;
     }
 
-        private Persona rsRowToPersona(ResultSet rs) throws SQLException {
+ /*       private Persona rsRowToPersona(ResultSet rs) throws SQLException {
        int id_persona = rs.getInt(1);
        String dni = rs.getString(2);
        String nombre = rs.getString(3);
@@ -56,7 +56,7 @@ public class PersonaDAO {
        int fk_usuario = rs.getInt(5);
        
        return new Persona(id_persona, dni, nombre, apellido, edad, fk_usuario) ;
-    }
+    }*/
 
-    }
+}
     
