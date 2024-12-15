@@ -25,23 +25,27 @@ public class UsuarioDAO {
         return usuarios;
     }
  
+    
+    
+    
     public Usuario autenticar(String usuario, String contrasenia) {
-    String query = "SELECT id_usuario, usuario, contrasenia, dinero, rol FROM usuario WHERE usuario = ? AND contrasenia = ?"; 
-    Usuario validado = null;
-    try (Connection con = ConnectionPool.getInstance().getConnection(); PreparedStatement preparedStatement = con.prepareStatement(query)) {
-        preparedStatement.setString(1, usuario);
-        preparedStatement.setString(2, contrasenia);
-        try (ResultSet resultSet = preparedStatement.executeQuery()) {
-            if (resultSet.next()) {
-                validado = rsRowToUsuario(resultSet);
-                System.out.println(validado);
-            }
+        
+        Usuario validado = null;
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            validado = session.createQuery("FROM Usuario WHERE usuario = ?1 AND contrasenia = ?2", Usuario.class)
+                    .setParameter(1, usuario)
+                    .setParameter(2, contrasenia)
+                    .getSingleResultOrNull();
+            session.getTransaction().commit();
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
         }
-    } catch (SQLException ex) {
-        throw new RuntimeException(ex);
-    }
-    return validado;
-}
+        return validado;
+  }
+    
+    
+  
 
 private Usuario rsRowToUsuario(ResultSet rs) throws SQLException {
     int IDusuario = rs.getInt("id_usuario");
