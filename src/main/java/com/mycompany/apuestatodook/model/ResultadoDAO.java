@@ -36,21 +36,19 @@ public class ResultadoDAO {
         return resultados;
     }
 
+       
     public Resultado getResultadoByIdPartido(int idPartido) {
-        String query = "SELECT * FROM resultado WHERE fk_id_partido = ?";
         Resultado resultado = null;
-        try (Connection con = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            preparedStatement.setInt(1, idPartido);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    resultado = rsRowToResultado(resultSet);
-                }
-            }
-        } catch (SQLException ex) {
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            resultado = session.createQuery("FROM Resultado WHERE idPartido = ?1", Resultado.class)
+                    .setParameter(1, idPartido)
+                    .getSingleResultOrNull();
+            session.getTransaction().commit();
+            
+        } catch(Exception ex){
             throw new RuntimeException(ex);
         }
-        
         return resultado;
     }
     
