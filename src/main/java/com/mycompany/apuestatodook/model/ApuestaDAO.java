@@ -118,34 +118,35 @@ public class ApuestaDAO {
     }
     
     
+   
     public List<Apuesta> getApuestasConResultadoPorUsuario(int idUsuario) {
-    List<Apuesta> apuestasConResultado = new ArrayList<>();
-    String query = "SELECT apuesta.por_quien, apuesta.monto, partido.local, partido.visitante, partido.fecha " +
-            "FROM apuesta " +
-            "JOIN resultado ON resultado.fk_id_partido = apuesta.fk_id_partido " +
-            "JOIN partido ON partido.id_partido = apuesta.fk_id_partido " +
-            "WHERE apuesta.fk_id_usuario = ?";  // Agregar condición por fk_id_usuario
-
-    try (Connection con = ConnectionPool.getInstance().getConnection();
-         PreparedStatement ps = con.prepareStatement(query)) {
-        ps.setInt(1, idUsuario);  // Establecer el valor del parámetro
-
-        try (ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                String por_quien = rs.getString("por_quien");
-                int monto = rs.getInt("monto");
-                String local = rs.getString("local");
-                String visitante = rs.getString("visitante");
-                String fecha = rs.getString("fecha");
-
+        List<Apuesta> apuestasConResultado = new ArrayList<>();
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            List<Object[]> resultados = 
+                    session.createQuery("SELECT a.por_quien, a.monto, p.local, p.visitante, p.fecha "+
+                            "FROM Apuesta as a "+
+                            "JOIN Resultado as r ON r.idPartido = a.idPartido "+
+                            "JOIN Partido as p ON p.idPartido = a.idPartido "+
+                            "WHERE a.idUsuario = ?1",Object[].class)
+                            .setParameter(1, idUsuario)
+                            .getResultList();
+            
+            for (var resultado : resultados) {
+                String por_quien = (String) resultado[0];
+                int monto = (int) resultado[1];
+                String local = (String) resultado[2];
+                String visitante = (String) resultado[3];
+                String fecha = (String) resultado[4];
                 Apuesta apuesta = new Apuesta(local, visitante, fecha, monto, por_quien);
                 apuestasConResultado.add(apuesta);
             }
+            
+            session.getTransaction().commit();
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
         }
-    } catch (SQLException ex) {
-        throw new RuntimeException(ex);
+        return apuestasConResultado;
     }
-    return apuestasConResultado;
-}
 
 }
