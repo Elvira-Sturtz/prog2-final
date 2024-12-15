@@ -24,24 +24,17 @@ public class ApuestaDAO {
     
     
     public List<Apuesta> getApuestasPorUsuario(int idUsuario) {
-    List<Apuesta> apuestas = new ArrayList<>();
-    String query = "SELECT * FROM apuesta WHERE fk_id_usuario = ?";
-    
-    try (Connection con = ConnectionPool.getInstance().getConnection();
-         PreparedStatement preparedStatement = con.prepareStatement(query)) {
-        preparedStatement.setInt(1, idUsuario);
-        
-        try (ResultSet resultSet = preparedStatement.executeQuery()) {
-            while (resultSet.next()) {
-                Apuesta apuesta = rsRowToApuesta(resultSet);
-                apuestas.add(apuesta);
-            }
+        List<Apuesta> apuestas = new ArrayList<>();
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            apuestas = session.createQuery("FROM Apuesta WHERE idUsuario = ?1", Apuesta.class)
+                    .setParameter(1, idUsuario)
+                    .getResultList();
+            session.getTransaction().commit();
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
         }
-    } catch (SQLException ex) {
-        throw new RuntimeException(ex);
-    }
-    
-    return apuestas;
+        return apuestas;
     }
     
     public String getResultadoPorPartido(int idPartido) {
