@@ -90,19 +90,24 @@ public class UsuarioDAO {
     }
  
  
-        public void updateDinero(Usuario usuario) {
-        String query = "UPDATE usuario SET dinero = ? WHERE id_usuario = ?";
-        try (Connection con = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            preparedStatement.setDouble(1, usuario.getDinero());
-            preparedStatement.setInt(2, usuario.getIDusuario());
-            preparedStatement.executeUpdate();
+ 
+    
+    public void updateDinero(Usuario usuario) {
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            session.createMutationQuery("UPDATE Usuario SET dinero = ?1 WHERE IDusuario = ?2")
+                    .setParameter(1, usuario.getDinero())
+                    .setParameter(2, usuario.getIDusuario())
+                    .executeUpdate();
+            session.getTransaction().commit();
             System.out.println("Actualización del dinero del usuario en la base de datos. Nuevo saldo: " + usuario.getDinero());
-        } catch (SQLException ex) {
-            System.out.println("Error al actualizar el dinero del usuario: " + ex.getMessage());     
+            
+        } catch(Exception ex){
+            System.out.println("Error al actualizar el dinero del usuario: " + ex.getMessage()); 
             throw new RuntimeException(ex);
         }
     }
+    
 }
 
 
