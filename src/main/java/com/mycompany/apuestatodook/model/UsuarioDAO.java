@@ -72,24 +72,17 @@ public class UsuarioDAO {
         }
     }
     
-    
+       
     public double getDineroPorIdUsuario (Integer Id) {
-        
-        String query = "SELECT dinero FROM usuario WHERE id_usuario = ?";
-        
         double dinero = 0.0;
-        
-        try (Connection con = ConnectionPool.getInstance().getConnection(); PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            
-            preparedStatement.setInt(1, Id);
-            
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                
-                if (resultSet.next()) { 
-                    dinero = resultSet.getDouble(1);
-                }  
-            }
-        } catch (SQLException ex) {
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            dinero = session.createQuery("SELECT dinero FROM Usuario WHERE IDusuario= ?1", Double.class)
+                    .setParameter(1, Id)
+                    .getSingleResult();
+            session.getTransaction().commit();
+             
+        } catch(Exception ex){
             throw new RuntimeException(ex);
         }
         
