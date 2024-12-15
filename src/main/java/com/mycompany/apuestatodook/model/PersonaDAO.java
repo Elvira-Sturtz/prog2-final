@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.Session;
+
 
 public class PersonaDAO {
 
@@ -16,16 +18,15 @@ public class PersonaDAO {
         this.personas = new ArrayList<>();
     }
 
+        
     public void agregarPersona(int idUsuario, String nombre, String apellido, int edad, String dni) {
-        String query = "INSERT INTO persona ( nombre, apellido, edad, dni, fk_id_usuario) VALUES (? , ?, ?, ?, ?)";
-        try (Connection con = ConnectionPool.getInstance().getConnection(); PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            preparedStatement.setString(1, nombre);
-            preparedStatement.setString(2, apellido);
-            preparedStatement.setInt(3, edad);
-            preparedStatement.setString(4, dni);
-            preparedStatement.setInt(5, idUsuario);
-            preparedStatement.executeUpdate();
-        } catch (SQLException ex) {
+        Persona persona = new Persona(idUsuario, nombre, apellido, edad, dni);
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            session.persist(persona);
+            session.getTransaction().commit();
+            
+        } catch(Exception ex){
             throw new RuntimeException(ex);
         }
     }
