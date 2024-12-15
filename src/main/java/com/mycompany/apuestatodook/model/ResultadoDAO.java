@@ -52,27 +52,27 @@ public class ResultadoDAO {
         return resultado;
     }
     
-     public int getIdResultadoByIdPartido(int idPartido) {
-        String query = "SELECT id_resultado FROM resultado WHERE fk_id_partido = ?";
-        try (Connection con = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            preparedStatement.setInt(1, idPartido);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return resultSet.getInt("id_resultado");
-                } else {
-                    throw new RuntimeException("No se encontró ningún resultado para el partido con id " + idPartido);
-                }
-            }
-        } catch (SQLException ex) {
+        
+    public int getIdResultadoByIdPartido(int idPartido) {
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            int id = session.createQuery("SELECT idResultado FROM Resultado WHERE idPartido = ?1", int.class)
+                    .setParameter(1, idPartido)
+                    .getSingleResult();
+            
+            session.getTransaction().commit();
+            
+            return id;
+        } catch(Exception ex){
             throw new RuntimeException(ex);
         }
     }
 
-    private Resultado rsRowToResultado(ResultSet rs) throws SQLException {
+
+/*    private Resultado rsRowToResultado(ResultSet rs) throws SQLException {
         int idResultado = rs.getInt("id_resultado");
         String ganador = rs.getString("ganador");
         int idPartido = rs.getInt("fk_id_partido");
         return new Resultado(idResultado, ganador, idPartido);
-    }
+    }*/ 
 }
