@@ -37,20 +37,23 @@ public class ApuestaDAO {
         return apuestas;
     }
     
+     
     public String getResultadoPorPartido(int idPartido) {
-    String query = "SELECT ganador FROM resultado WHERE id_partido = ?";
-    try (Connection con = ConnectionPool.getInstance().getConnection();
-         PreparedStatement preparedStatement = con.prepareStatement(query)) {
-        preparedStatement.setInt(1, idPartido);
-        try (ResultSet resultSet = preparedStatement.executeQuery()) {
-            if (resultSet.next()) {
-                return resultSet.getString("ganador");
-            }
+        String resultado = null;
+        
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            resultado = session.createQuery("SELECT ganador FROM Resultado WHERE idPartido = ?1", String.class)
+                    .setParameter(1, idPartido)
+                    .getSingleResultOrNull();
+            
+            session.getTransaction().commit();
+            
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
         }
-    } catch (SQLException ex) {
-        throw new RuntimeException(ex);
-    }
-    return null;
+        
+        return resultado;
     }
 
 
