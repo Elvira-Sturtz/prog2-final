@@ -47,17 +47,17 @@ public class PartidoDAO {
         return partidosConResultado;
     }
         
+     
+    
     public List<Partido> getAll() {
-        List<Partido>partidos = new LinkedList();
-        String query = "SELECT * FROM partido";
-        try(Connection con = ConnectionPool.getInstance().getConnection();
-        PreparedStatement ps = con.prepareStatement(query);
-        ResultSet rs = ps.executeQuery();)
-        {
-            while(rs.next()){
-                partidos.add(rsRowToPartido(rs));
-            }
-        }catch(SQLException ex){
+        List<Partido> partidos = new LinkedList();
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            partidos = session.createQuery("FROM Partido", Partido.class)
+                    .getResultList();
+            session.getTransaction().commit();
+            
+        } catch(Exception ex){
             throw new RuntimeException(ex);
         }
         return partidos;
