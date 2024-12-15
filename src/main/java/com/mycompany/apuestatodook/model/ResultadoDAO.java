@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import org.hibernate.Session; 
+
 
 public class ResultadoDAO {
     private List<Resultado> resultados;
@@ -19,16 +21,16 @@ public class ResultadoDAO {
         resultados.add(resultado);
     }
 
+       
     public List<Resultado> getAllResultados() {
         List<Resultado> resultados = new LinkedList<>();
-        String query = "SELECT * FROM resultado";
-        try (Connection con = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = con.prepareStatement(query);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-            while (resultSet.next()) {
-                resultados.add(rsRowToResultado(resultSet));
-            }
-        } catch (SQLException ex) {
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            resultados = session.createQuery("FROM Resultado", Resultado.class)
+                    .getResultList();
+            session.getTransaction().commit();
+            
+        } catch(Exception ex){
             throw new RuntimeException(ex);
         }
         return resultados;
