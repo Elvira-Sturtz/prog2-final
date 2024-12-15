@@ -57,7 +57,7 @@ public class ApuestaDAO {
     }
 
 
-    private Apuesta rsRowToApuesta(ResultSet rs) throws SQLException {
+/*    private Apuesta rsRowToApuesta(ResultSet rs) throws SQLException {
     int monto = rs.getInt("monto");
     String por_quien = rs.getString("por_quien");
     int idUsuario = rs.getInt("fk_id_usuario");
@@ -67,24 +67,27 @@ public class ApuestaDAO {
     Apuesta apuesta = new Apuesta(monto, por_quien, idUsuario, idPartido, fk_id_resultado);
 
     return apuesta;
+    }*/  
+    
+ 
+    
+     public void updateEstado(Apuesta apuesta) {
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            System.out.println("ID de apuesta antes de la actualización: " + apuesta.getIdApuesta());
+            session.beginTransaction();
+            session.createMutationQuery("UPDATE Apuesta SET estado = ?1 WHERE idApuesta = ?2")
+                    .setParameter(1, apuesta.getEstado())
+                    .setParameter(2, apuesta.getIdApuesta())
+                    .executeUpdate();
+            
+            session.getTransaction().commit();
+            System.out.println("Estado actualizado: " + apuesta.getEstado());
+        } catch(Exception ex){
+            System.out.println("Error al actualizar el estado: " + ex.getMessage());
+            throw new RuntimeException(ex);
+        }
     }
     
-    public void updateEstado(Apuesta apuesta) {
-    String query = "UPDATE apuesta SET estado = ? WHERE id_apuesta = ?";
-    try (Connection con = ConnectionPool.getInstance().getConnection();
-         PreparedStatement preparedStatement = con.prepareStatement(query)) {
-        System.out.println("ID de apuesta antes de la actualización: " + apuesta.getIdApuesta());
-        preparedStatement.setString(1, String.valueOf(apuesta.getEstado()));
-        preparedStatement.setInt(2, apuesta.getIdApuesta());
-        preparedStatement.executeUpdate();
-        
-        // Imprimir el estado después de la actualización
-        System.out.println("Estado actualizado: " + apuesta.getEstado());
-    } catch (SQLException ex) {
-        System.out.println("Error al actualizar el estado: " + ex.getMessage());
-        throw new RuntimeException(ex);
-    }
-    }
     public List<Apuesta> getAllApuestasConResultado() {
     List<Apuesta> apuestasConResultado = new ArrayList<>();
     String query = "SELECT apuesta.por_quien, apuesta.monto, partido.local, partido.visitante, partido.fecha " +
