@@ -64,28 +64,28 @@ public class PartidoDAO {
     }
     
  
-
+    
     public Partido getPartidoPorId(Integer Id) {
-        String query = "SELECT * FROM partido WHERE id_partido = ?";
         Partido partido = null;
-        try (Connection con = ConnectionPool.getInstance().getConnection(); PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            preparedStatement.setInt(1, Id);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    partido = rsRowToPartido(resultSet);
-                }
-            }
-        } catch (SQLException ex) {
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            partido = session.createQuery("FROM Partido WHERE idPartido= ?1", Partido.class)
+                    .setParameter(1, Id)
+                    .getSingleResult();
+            session.getTransaction().commit();
+            
+        } catch(Exception ex){
             throw new RuntimeException(ex);
         }
         return partido;
     }
+    
 
-    private Partido rsRowToPartido(ResultSet rs) throws SQLException {
+   /* private Partido rsRowToPartido(ResultSet rs) throws SQLException {
        int id_partido = rs.getInt(1);
        String local = rs.getString(2);
        String visitante = rs.getString(3);
        String fecha = rs.getString(4);
        return new Partido(local, visitante, fecha, id_partido);
-    }
+    }*/ 
 }
