@@ -95,7 +95,9 @@ INSERT INTO `partido` (`id_partido`, `local`, `visitante`, `fecha`) VALUES
 (12, 'Tottenham Hotspur', 'Manchester United', '2023-11-12'),
 (13, 'ACF Fiorentina', 'Napoli', '2023-11-13'),
 (14, 'Everton FC', 'Leeds United', '2023-11-14'),
-(15, 'Ajax Cape Town', 'Kaizer Chiefs', '2023-11-15');
+(15, 'Ajax Cape Town', 'Kaizer Chiefs', '2023-11-15'),
+(16, 'Ajax Cape Town', 'Kaizer Chiefs', '2025-01-15'),
+(17, 'Ajax Cape Town', 'Kaizer Chiefs', '2025-02-20');
 
 -- --------------------------------------------------------
 

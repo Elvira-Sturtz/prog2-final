@@ -28,6 +28,9 @@ public class IndexServlet extends HttpServlet {
                 case "usuarioCreado":
                     destino = "/WEB-INF/jsp/usuarioCreado.jsp";
                     break;
+                case "partidos":
+                    destino = "/WEB-INF/jsp/partidos.jsp";
+                    break;
             }
         }
         request.getRequestDispatcher(destino).forward(request, response);

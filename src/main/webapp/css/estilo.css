@@ -185,10 +185,20 @@ height: 100vh;
     background-repeat: no-repeat;
 }
 
+.form-control sizeInput{
+    font-size: 5px;
+}
+
+#fondoNewPartido{
+    background-image: url(../img/iniciosesion.jpg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
 .partidos-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: start;
     color: black;
     margin: 50px;
 }

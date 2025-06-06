@@ -2,10 +2,13 @@ com\mycompany\apuestatodook\filtros\UtilFilter.class
 com\mycompany\apuestatodook\PartidosServlet.class
 com\mycompany\apuestatodook\ApuestaMostrarServlet.class
 com\mycompany\apuestatodook\model\Usuario.class
+com\mycompany\apuestatodook\PartidoNuevoServlet.class
 com\mycompany\apuestatodook\model\PersonaDAO.class
+com\mycompany\apuestatodook\EliminarPartidoServlet.class
 com\mycompany\apuestatodook\ProcesarApuestaServlet.class
 com\mycompany\apuestatodook\IngresoUsuarioServlet.class
 com\mycompany\apuestatodook\model\Partido.class
+com\mycompany\apuestatodook\model\HibernateUtil.class
 com\mycompany\apuestatodook\ApuestaServlet.class
 com\mycompany\apuestatodook\filtros\AdminFilter.class
 com\mycompany\apuestatodook\BilleteraServlet.class
@@ -14,6 +17,7 @@ com\mycompany\apuestatodook\Salir.class
 com\mycompany\apuestatodook\model\UsuarioDAO.class
 com\mycompany\apuestatodook\filtros\loginfilter.class
 com\mycompany\apuestatodook\perfilServlet.class
+com\mycompany\apuestatodook\ModificarPartidoServlet.class
 com\mycompany\apuestatodook\ResultadosServlet.class
 com\mycompany\apuestatodook\IndexServlet.class
 com\mycompany\apuestatodook\model\ApuestaDAO.class
@@ -21,5 +25,6 @@ com\mycompany\apuestatodook\model\ResultadoDAO.class
 com\mycompany\apuestatodook\model\Persona.class
 com\mycompany\apuestatodook\model\ConnectionPool.class
 com\mycompany\apuestatodook\model\Apuesta.class
+com\mycompany\apuestatodook\CrearPartidoServlet.class
 com\mycompany\apuestatodook\UsuarioNuevoServlet.class
 com\mycompany\apuestatodook\model\Resultado.class

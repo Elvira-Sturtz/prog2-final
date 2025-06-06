@@ -4,12 +4,16 @@ D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuesta
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\ProcesarApuestaServlet.java
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\BilleteraServlet.java
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\filtros\AdminFilter.java
+D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\model\HibernateUtil.java
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\filtros\loginfilter.java
+D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\ModificarPartidoServlet.java
+D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\EliminarPartidoServlet.java
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\model\PersonaDAO.java
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\ResultadosServlet.java
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\UsuarioNuevoServlet.java
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\IngresoUsuarioServlet.java
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\model\Partido.java
+D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\CrearPartidoServlet.java
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\model\Apuesta.java
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\model\Resultado.java
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\PartidosServlet.java
@@ -19,6 +23,7 @@ D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuesta
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\filtros\UtilFilter.java
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\model\Usuario.java
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\model\ResultadoDAO.java
+D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\PartidoNuevoServlet.java
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\model\ApuestaDAO.java
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\ApuestaServlet.java
 D:\Programacion2Final\ProyectoTodoApuestasOk\src\main\java\com\mycompany\apuestatodook\IndexServlet.java

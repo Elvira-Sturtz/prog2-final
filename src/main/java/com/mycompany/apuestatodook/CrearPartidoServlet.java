@@ -18,21 +18,21 @@ import java.util.stream.Collectors;
 
 
 
-@WebServlet(name = "SvPartidos", urlPatterns = {"/Partidos"})
-public class PartidosServlet extends HttpServlet {
+@WebServlet(name = "SvCrearPartido", urlPatterns = {"/crearPartido"})
+public class CrearPartidoServlet extends HttpServlet {
 
    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        PartidoDAO partidosDAO = new PartidoDAO();
+        //PartidoDAO partidosDAO = new PartidoDAO();
         String destino;
         
-     LocalDate fechaActual = LocalDate.now(); // Fecha actual
+     //LocalDate fechaActual = LocalDate.now(); // Fecha actual
 
     // Filtrar partidos futuros
-    List<Partido> partidosFuturos = partidosDAO.getAllOrder().stream()
+    /*List<Partido> partidosFuturos = partidosDAO.getAll().stream()
         .filter(partido -> {
             try {
                 LocalDate fechaPartido = LocalDate.parse(partido.getFecha());
@@ -51,8 +51,8 @@ public class PartidosServlet extends HttpServlet {
             
         
         // esto muestra todos los partidos 
-        //request.setAttribute("listaDePartidos", partidosDAO.getAll());
-        destino = "WEB-INF/jsp/partidos.jsp";
+        //request.setAttribute("listaDePartidos", partidosDAO.getAll());*/
+        destino = "WEB-INF/jsp/crearPartido.jsp";
         
         
         

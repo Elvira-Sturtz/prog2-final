@@ -55,6 +55,12 @@ public class Partido {
         this.fecha = fecha;
         this.resultado = resultado;
     }
+     public Partido(String local, String visitante, String fecha) {
+        this.local = local;
+        this.visitante = visitante;
+        this.fecha = fecha;
+        //this.idPartido = idPartido;
+    }
     
 
     public void setLocal(String local) {

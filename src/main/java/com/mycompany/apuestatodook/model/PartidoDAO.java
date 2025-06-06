@@ -21,6 +21,18 @@ public class PartidoDAO {
     public void add(Partido partido) {
         partidos.add(partido);
     }
+    
+    public void agregarPartido(String local, String visitante,String fecha) {
+        Partido partido = new Partido(local, visitante, fecha);
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            session.persist(partido);
+            session.getTransaction().commit();
+            
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
         
  
     
@@ -63,6 +75,19 @@ public class PartidoDAO {
         return partidos;
     }
     
+        public List<Partido> getAllOrder() {
+        List<Partido> partidos = new LinkedList();
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            session.beginTransaction();
+            partidos = session.createQuery("FROM Partido ORDER BY fecha DESC", Partido.class)
+                    .getResultList();
+            session.getTransaction().commit();
+            
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
+        }
+        return partidos;
+    }
  
     
     public Partido getPartidoPorId(Integer Id) {
@@ -80,6 +105,21 @@ public class PartidoDAO {
         return partido;
     }
     
+     public void deletePartidoPorId(Integer Id) {
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            //System.out.println("ID de apuesta antes de la actualización: " + apuesta.getIdApuesta());
+            session.beginTransaction();
+            session.createMutationQuery("DELETE FROM Partido WHERE idPartido = ?1")
+                    .setParameter(1, Id)
+                    .executeUpdate();
+            
+            session.getTransaction().commit();
+            //System.out.println("Estado actualizado: " + apuesta.getEstado());
+        } catch(Exception ex){
+            System.out.println("Error al eliminar el partido: " + ex.getMessage());
+            throw new RuntimeException(ex);
+        }
+    }
 
    /* private Partido rsRowToPartido(ResultSet rs) throws SQLException {
        int id_partido = rs.getInt(1);
