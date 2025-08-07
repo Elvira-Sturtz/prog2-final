@@ -88,6 +88,9 @@ public class Usuario{
         this.IDusuario = IDusuario;
     }
 
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
     @Override
     public String toString() {
         return "Usuario{" + "IDusuario=" + IDusuario + ", usuario=" + usuario + ", contrasenia=" + contrasenia + ", dinero=" + dinero + '}';

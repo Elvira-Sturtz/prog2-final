@@ -21,21 +21,27 @@
                                         </div>
                         </c:if>
                   </div>
-                  <form action="NuevoPartido" method="POST">
+                  <form action="GuardarModificarPartido" method="POST">
                              
-                      <div class="form-outline mb-4">
-                          <input type="text" id="form2Example11" class="form-control" style="font-size: 12px"
-                             placeholder="Ingrese el Equipo Local" name="local"/>
+
+                          <div class="form-outline mb-4">
+                            <input type="text" id="form2Example12" class="form-control" style="font-size: 12px" hidden="true"
+                            name="id" value="${partidoPorId.getIdPartido()}"/>
+                            </div>
+                             
+                          <div class="form-outline mb-4">
+                              <input type="text" id="form2Example11" class="form-control" style="font-size: 12px"
+                                 placeholder="Ingrese el Equipo Local" name="local" value="${partidoPorId.getLocal()}"/>
                              <label class="form-label" for="form2Example11">Equipo Local</label>
                              </div>
                       
                             <div class="form-outline mb-4">
-                            <input type="text" name="visitante" id="form2Example22" class="form-control" style="font-size: 12px" placeholder="Ingrese el Equipo Visitante"/>
+                            <input type="text" name="visitante" id="form2Example22" class="form-control" style="font-size: 12px" placeholder="Ingrese el Equipo Visitante" value="${partidoPorId.getVisitante()}"/>
                             <label class="form-label" for="form2Example22">Equipo Visitante</label>
                             </div>
                             
                             <div class="form-outline mb-4">
-                            <input type="text" name="fecha" id="form2Example22" class="form-control" style="font-size: 12px" placeholder="Ingrese fecha del partido (AAAA/MM/DD)"/>
+                            <input type="text" name="fecha" id="form2Example22" class="form-control" style="font-size: 12px" placeholder="Ingrese fecha del partido (AAAA/MM/DD)" value="${partidoPorId.getFecha()}"/>
                             <label class="form-label" for="form2Example22">Fecha</label>
                             </div>
 

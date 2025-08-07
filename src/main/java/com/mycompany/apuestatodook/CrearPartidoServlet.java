@@ -26,33 +26,14 @@ public class CrearPartidoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        //PartidoDAO partidosDAO = new PartidoDAO();
-        String destino;
         
-     //LocalDate fechaActual = LocalDate.now(); // Fecha actual
-
-    // Filtrar partidos futuros
-    /*List<Partido> partidosFuturos = partidosDAO.getAll().stream()
-        .filter(partido -> {
-            try {
-                LocalDate fechaPartido = LocalDate.parse(partido.getFecha());
-                return fechaPartido.isAfter(fechaActual);
-            } catch (Exception e) {
-                return false;
-            }
-        })
-        .collect(Collectors.toList());
-
-    request.setAttribute("listaDePartidos", partidosFuturos);
-    
-
-       
-
-            
+        String tipoUsuario = (String) request.getSession().getAttribute("tipoUsuario");
+        if (tipoUsuario == null || !tipoUsuario.equals("admin")) {
+            response.sendRedirect(request.getContextPath() + "/inicioSesion.jsp");
+            return;
+        }
         
-        // esto muestra todos los partidos 
-        //request.setAttribute("listaDePartidos", partidosDAO.getAll());*/
-        destino = "WEB-INF/jsp/crearPartido.jsp";
+        String destino = "WEB-INF/jsp/crearPartido.jsp";
         
         
         

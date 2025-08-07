@@ -21,6 +21,10 @@
         <filter-name>AdminFilter</filter-name>
         <url-pattern>/AllApuestas</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/crearPartido</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>SvIndex</servlet-name>
         <servlet-class>com.mycompany.apuestatodook.IndexServlet</servlet-class>

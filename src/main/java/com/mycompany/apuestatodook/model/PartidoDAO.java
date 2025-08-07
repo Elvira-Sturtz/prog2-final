@@ -120,6 +120,43 @@ public class PartidoDAO {
             throw new RuntimeException(ex);
         }
     }
+     
+     
+     public void updatePartidoPorId(Integer Id, String local, String visitante,String fecha) {
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            //System.out.println("ID de apuesta antes de la actualización: " + apuesta.getIdApuesta());
+            session.beginTransaction();
+            session.createMutationQuery("UPDATE Partido SET local = ?1, visitante = ?2, fecha = ?3 WHERE idPartido = ?4")
+                    .setParameter(1, local)
+                    .setParameter(2, visitante)
+                    .setParameter(3, fecha)
+                    .setParameter(4, Id)
+                    .executeUpdate();
+            
+            session.getTransaction().commit();
+            //System.out.println("Estado actualizado: " + apuesta.getEstado());
+        } catch(Exception ex){
+            System.out.println("Error al eliminar el partido: " + ex.getMessage());
+            throw new RuntimeException(ex);
+        }
+    }
+     
+     /*public void updateEstado(Apuesta apuesta) {
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession() ){
+            System.out.println("ID de apuesta antes de la actualización: " + apuesta.getIdApuesta());
+            session.beginTransaction();
+            session.createMutationQuery("UPDATE Apuesta SET estado = ?1 WHERE idApuesta = ?2")
+                    .setParameter(1, apuesta.getEstado())
+                    .setParameter(2, apuesta.getIdApuesta())
+                    .executeUpdate();
+            
+            session.getTransaction().commit();
+            System.out.println("Estado actualizado: " + apuesta.getEstado());
+        } catch(Exception ex){
+            System.out.println("Error al actualizar el estado: " + ex.getMessage());
+            throw new RuntimeException(ex);
+        }
+    }*/
 
    /* private Partido rsRowToPartido(ResultSet rs) throws SQLException {
        int id_partido = rs.getInt(1);

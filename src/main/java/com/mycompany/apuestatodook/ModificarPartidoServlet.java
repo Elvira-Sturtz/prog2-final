@@ -18,49 +18,40 @@ import java.util.stream.Collectors;
 
 
 
-@WebServlet(name = "SvModificarPartido", urlPatterns = {"/modificarPartido"})
+@WebServlet(name = "SvModificarPartido", urlPatterns = {"/ModificarPartido"})
 public class ModificarPartidoServlet extends HttpServlet {
 
-   
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        //PartidoDAO partidosDAO = new PartidoDAO();
-        String destino;
+        int partidoId = Integer.parseInt(request.getParameter("id"));
+        PartidoDAO PartidoDAO = new PartidoDAO();
+        Partido partidoPorId = PartidoDAO.getPartidoPorId(partidoId);
+        request.setAttribute("partidoPorId", partidoPorId);
+        /*
+        PartidoDAO PartidoDAO = new PartidoDAO();
         
-     //LocalDate fechaActual = LocalDate.now(); // Fecha actual
+        //Partido partido = 
+        PartidoDAO.deletePartidoPorId(partidoId);      
+        
+       /* request.setAttribute("partido", partido);
+        
+        
+        ApuestaDAO apuestaDAO = new ApuestaDAO();
+            List<Apuesta> apuestas = apuestaDAO.getAllApuestasConResultado();
+        /*
+        Usuario usuario = (Usuario) request.getSession().getAttribute("userLogueado");
+        
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        double dineroUsuario = usuarioDAO.getDineroPorIdUsuario(usuario.getIDusuario());
 
-    // Filtrar partidos futuros
-    /*List<Partido> partidosFuturos = partidosDAO.getAll().stream()
-        .filter(partido -> {
-            try {
-                LocalDate fechaPartido = LocalDate.parse(partido.getFecha());
-                return fechaPartido.isAfter(fechaActual);
-            } catch (Exception e) {
-                return false;
-            }
-        })
-        .collect(Collectors.toList());
-
-    request.setAttribute("listaDePartidos", partidosFuturos);
-    
-
-       
-
-            
+        usuario.setDinero(dineroUsuario);
+        request.getSession().setAttribute("userLogueado", usuario);
         
-        // esto muestra todos los partidos 
-        //request.setAttribute("listaDePartidos", partidosDAO.getAll());*/
-        destino = "WEB-INF/jsp/modificarPartido.jsp";
+        request.setAttribute("dineroUsuario", dineroUsuario);
         
-        
-        
-        request.getRequestDispatcher(destino).forward(request, response);
+        */
+        request.getRequestDispatcher("WEB-INF/jsp/modificarPartido.jsp").forward(request, response);
     }
-
-   
-
-
-
 }

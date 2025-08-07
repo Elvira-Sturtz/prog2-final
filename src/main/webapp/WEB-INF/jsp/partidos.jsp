@@ -31,10 +31,25 @@
                     <div class="fw-bold">vs</div>
                     <div class="equipo-visitante">${partido.visitante}</div>
                     <div class="fecha fw-bold">${partido.fecha}</div>
-                    <a class="btn btn-success mt-3 me-2" href="/ApuestaTodook/EliminarPartido?id=${partido.idPartido}">Eliminar</a>
-                    <a class="btn btn-success mt-3 me-2" href="${pageContext.request.contextPath}/ModificarPartido?id=${partido.idPartido}">Modificar</a>
                     
-                    <!--<a class="btn btn-success mt-3 me-2" href="/ApuestaTodook/ModificarPartido?id=${partido.idPartido}">Modificar</a>-->
+                    <!-- Mostrar los botones solo si el partido aún no se jugó -->
+                    <c:if test="${partido.fecha >= fechaHoy}"> 
+                        <c:choose> 
+                            <c:when test="${esAdmin}"> 
+                                <%--Elementos si este when es true --%>
+                                <h1 id="bets">${mensajeAdmin}</h1> 
+                               
+                                <a class="btn btn-success mt-3 me-2" href="/ApuestaTodook/EliminarPartido?id=${partido.idPartido}">Eliminar</a>
+                                <a class="btn btn-success mt-3 me-2" href="/ApuestaTodook/ModificarPartido?id=${partido.idPartido}">Modificar</a>
+                            </c:when>        
+                        
+                            <c:otherwise> 
+                                <%--Elementos si todos los when fueron false --%> 
+                                <a class="btn btn-success" href="/ApuestaTodook/Apuesta?id=${partido.idPartido}">Apostar</a> 
+                            </c:otherwise> 
+                        </c:choose> 
+                    </c:if>
+
                 </div>
             </c:forEach>
         </div>

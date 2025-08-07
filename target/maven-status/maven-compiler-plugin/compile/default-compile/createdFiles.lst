@@ -8,6 +8,7 @@ com\mycompany\apuestatodook\EliminarPartidoServlet.class
 com\mycompany\apuestatodook\ProcesarApuestaServlet.class
 com\mycompany\apuestatodook\IngresoUsuarioServlet.class
 com\mycompany\apuestatodook\model\Partido.class
+com\mycompany\apuestatodook\GuardarModificarPartidoServlet.class
 com\mycompany\apuestatodook\model\HibernateUtil.class
 com\mycompany\apuestatodook\ApuestaServlet.class
 com\mycompany\apuestatodook\filtros\AdminFilter.class
